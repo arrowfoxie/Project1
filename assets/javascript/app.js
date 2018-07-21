@@ -1,3 +1,16 @@
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyDwUjEuyQskBoLECIntfN_rFIyWOQTetSA",
+    authDomain: "maps-and-photos.firebaseapp.com",
+    databaseURL: "https://maps-and-photos.firebaseio.com",
+    projectId: "maps-and-photos",
+    storageBucket: "maps-and-photos.appspot.com",
+    messagingSenderId: "1046812116045"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
 //setting latitude and longitude as global variables so that they will be set when user clicks on map
 //and then read in the display photos function call
 var latVar;
