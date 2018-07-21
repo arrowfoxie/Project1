@@ -7,9 +7,31 @@ var config = {
     storageBucket: "maps-and-photos.appspot.com",
     messagingSenderId: "1046812116045"
 };
+
 firebase.initializeApp(config);
 
 var database = firebase.database();
+
+function placeMarkerAndPanTo(latLng, map) {
+    var marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+    });
+    map.panTo(latLng);
+    console.log("Latitude and longitude coordinates" + latLng);
+}
+
+function initMap() {
+    var map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 4,
+        center: { lat: -25.363882, lng: 131.044922 }
+    });
+
+    map.addListener('click', function (e) {
+        placeMarkerAndPanTo(e.latLng, map);
+    });
+}
+initMap();
 
 //setting latitude and longitude as global variables so that they will be set when user clicks on map
 //and then read in the display photos function call
@@ -39,18 +61,19 @@ function displayPhotos() {
         headers: {}
     })
         .then(function (response) {
-            console.log(response);
             for (i = 0; i < numOfPhotos; i++) {
-                console.log(response.photos.photo[i].id);
                 var photoId = response.photos.photo[i].id;
                 var farm = response.photos.photo[i].farm;
                 var server = response.photos.photo[i].server;
                 var secret = response.photos.photo[i].secret;
+                var newCol = $("<div>");
+                newCol.addClass("col-sm-6 col-md-4");
                 var newImg = $("<img>")
                 newImg.addClass("photo-thumb");
+                newImg.addClass("img-fluid");
                 newImg.attr("src", "https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
-                console.log("https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
-                $("#recipeHolder").append(newImg);
+                newCol.append(newImg)
+                $("#image-holder").append(newCol);
 
             }
         });
