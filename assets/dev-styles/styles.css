@@ -1,0 +1,20 @@
+.main-raised {
+    height: 750px;
+    overflow: auto;
+}
+.row {
+    height: 500px;
+}
+.col-sm-12{
+    margin-bottom: 100px;
+}
+iframe{
+    width: 100%;
+    height: 100%;
+    border:0;
+}
+#map{
+    margin-top:0;
+    margin-bottom: 10px;
+    height: 450px;
+}

@@ -14671,8 +14671,10 @@ html * {
 
 h1,
 .h1 {
+  font-family: 'Merienda', cursive;  
   font-size: 3.3125rem;
   line-height: 1.15em;
+  
 }
 
 h2,
@@ -17272,7 +17274,7 @@ footer .pull-center {
 }
 
 .section {
-  padding: 70px 0;
+  padding: 0px 0;
 }
 
 .profile-page .page-header {
@@ -17904,6 +17906,12 @@ footer .pull-center {
   .card-profile .card-header-image {
     max-height: 215px;
   }
+}
+
+/*additional code that was added on top of the original Material CSS code*/
+.fa{
+  color: white;
+  font-size: 48px;
 }
 
 /*# sourceMappingURL=kit-free.css.map */
