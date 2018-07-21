@@ -22,6 +22,7 @@ iframe {
     margin-bottom: 10px;
     height: 450px;
 }
+<<<<<<< HEAD
 
 .imgCol {
     padding-top: 15px;
@@ -99,6 +100,8 @@ label {
     padding: 5px;
 }
 
+=======
+>>>>>>> c2ab9fda69cefa78e705cee6d2e5694e292c6685
 #floating-panel {
     position: absolute;
     top: 125px;
