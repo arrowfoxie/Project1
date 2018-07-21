@@ -18,3 +18,15 @@ iframe{
     margin-bottom: 10px;
     height: 450px;
 }
+#floating-panel {
+    position: absolute;
+    top: 125px;
+    left: 24%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 14px;
+    padding-left: 10px;
+  }
