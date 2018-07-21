@@ -1,3 +1,8 @@
+
+$(".close").click(function () {
+    $(this).parents(".modal").css("display", "none");
+});
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyDwUjEuyQskBoLECIntfN_rFIyWOQTetSA",
@@ -89,16 +94,18 @@ function displayPhotos() {
     })
         .then(function (response) {
             $("#image-holder").empty();
+            console.log(response);
             for (i = 0; i < numOfPhotos; i++) {
                 var photoId = response.photos.photo[i].id;
                 var farm = response.photos.photo[i].farm;
                 var server = response.photos.photo[i].server;
                 var secret = response.photos.photo[i].secret;
                 var newCol = $("<div>");
-                newCol.addClass("col-sm-6 col-md-4");
+                newCol.addClass("col-sm-6 col-md-4 imgCol");
                 var newImg = $("<img>")
                 newImg.addClass("photo-thumb");
                 newImg.addClass("img-fluid");
+                newImg.attr("data-title", response.photos.photo[i].title);
                 newImg.attr("src", "https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
                 newCol.append(newImg)
                 $("#image-holder").append(newCol);
@@ -109,4 +116,13 @@ function displayPhotos() {
 $("#image-holder").on("click", ".photo-thumb", function (event) {
     event.preventDefault();
     console.log($(this).attr("src"))
+    var photoUrl = $(this).attr("src")
+    var photoTitle = $(this).attr("data-title")
+    database.ref().child("favImg").push({
+        name: photoTitle,
+        url: photoUrl
+    });
+    var newHeart = $("<span>")
+    newHeart.text("heart");
+    //newHeart.append($(this).parents())
 });
