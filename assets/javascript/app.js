@@ -41,9 +41,11 @@ $("#mybtn").on("click", function () {
 
 var latVar;
 var lonVar;
+var markers = [];
+var map;
 
 function placeMarkerAndPanTo(latLng, map) {
-    var marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         position: latLng,
         map: map
     });
@@ -54,19 +56,43 @@ function placeMarkerAndPanTo(latLng, map) {
     console.log(latVar);
     console.log(lonVar);
     displayPhotos();
+    markers.push(marker);
 }
+
 
 function initMap() {
-    var map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 4,
-        center: { lat: 32.841199, lng: -96.784529 }
-    });
+    map = new google.maps.Map(document.getElementById("map"), {
+         zoom: 4,
+         center: { lat: 32.841199, lng: -96.784529 }
+     });
+ 
+     map.addListener('click', function (e) {
+         placeMarkerAndPanTo(e.latLng, map);
+     });
+     
+ }
+ function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+ 
+ function clearMarkers() {
+        setMapOnAll(null);
+      }
 
-    map.addListener('click', function (e) {
-        placeMarkerAndPanTo(e.latLng, map);
-    });
-}
-initMap();
+      // Shows any markers currently in the array.
+      function showMarkers() {
+        setMapOnAll(map);
+      }
+
+      // Deletes all markers in the array by removing references to them.
+      function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+      }
+
+      initMap();
 
 //setting latitude and longitude as global variables so that they will be set when user clicks on map
 //and then read in the display photos function call
