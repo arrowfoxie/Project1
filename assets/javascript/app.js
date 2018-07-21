@@ -16,6 +16,8 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var markers = [];
+var map;
 
 var provider = new firebase.auth.GoogleAuthProvider();
 provider.addScope('email');
@@ -41,32 +43,101 @@ $("#mybtn").on("click", function () {
 
 var latVar;
 var lonVar;
+var markers = [];
+var map;
 
 function placeMarkerAndPanTo(latLng, map) {
-    var marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         position: latLng,
         map: map
     });
     map.panTo(latLng);
+<<<<<<< HEAD
     console.log("Latitude and longitude coordinates" + latLng.lat() + "and" + latLng.lng());
     latVar = latLng.lat();
     lonVar = latLng.lng();
     console.log(latVar);
     console.log(lonVar);
     displayPhotos();
+    markers.push(marker);
+=======
+    console.log("Latitude and longitude coordinates" + latLng);
+    markers.push(marker);
+    console.log(markers);
+>>>>>>> c2ab9fda69cefa78e705cee6d2e5694e292c6685
 }
 
+
 function initMap() {
-    var map = new google.maps.Map(document.getElementById("map"), {
+<<<<<<< HEAD
+    map = new google.maps.Map(document.getElementById("map"), {
+         zoom: 4,
+         center: { lat: 32.841199, lng: -96.784529 }
+     });
+ 
+     map.addListener('click', function (e) {
+         placeMarkerAndPanTo(e.latLng, map);
+     });
+     
+ }
+ function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+ 
+ function clearMarkers() {
+        setMapOnAll(null);
+      }
+
+      // Shows any markers currently in the array.
+      function showMarkers() {
+        setMapOnAll(map);
+      }
+
+      // Deletes all markers in the array by removing references to them.
+      function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+      }
+
+      initMap();
+=======
+   map = new google.maps.Map(document.getElementById("map"), {
         zoom: 4,
-        center: { lat: 32.841199, lng: -96.784529 }
+        center: { lat: -25.363882, lng: 131.044922 }
     });
 
     map.addListener('click', function (e) {
         placeMarkerAndPanTo(e.latLng, map);
     });
+    
 }
 initMap();
+>>>>>>> c2ab9fda69cefa78e705cee6d2e5694e292c6685
+
+function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+
+  // Removes the markers from the map, but keeps them in the array.
+  function clearMarkers() {
+    setMapOnAll(null);
+  }
+
+  // Shows any markers currently in the array.
+  function showMarkers() {
+    setMapOnAll(map);
+  }
+
+  // Deletes all markers in the array by removing references to them.
+  function deleteMarkers() {
+    clearMarkers();
+    markers = [];
+  }
+
 
 //setting latitude and longitude as global variables so that they will be set when user clicks on map
 //and then read in the display photos function call
