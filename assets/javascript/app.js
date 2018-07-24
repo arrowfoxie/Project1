@@ -109,11 +109,14 @@ function displayPhotos() {
                 newLink.addClass("example-image-link");
                 newLink.attr("href", newPhotoUrl);
                 newLink.attr("data-lightbox", "example-set");
+                newLink.attr("data-title", response.photos.photo[i].title);
                 var newImg = $("<img>")
                 newImg.addClass("example-image photo-thumb img-fluid");
-                newImg.attr("data-title", response.photos.photo[i].title);
+                //newImg.attr("data-title", response.photos.photo[i].title);
                 newImg.attr("src", newPhotoUrl);
-                newInnerDiv.append(newImg);
+                newImg.attr("alt", response.photos.photo[i].title);
+                newLink.append(newImg);
+                newInnerDiv.append(newLink);
                 newCol.append(newInnerDiv)
                 $("#image-holder").append(newCol);
 
