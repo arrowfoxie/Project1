@@ -46,25 +46,24 @@
       <button id="mybtn" data-target="modal1" class="btn modal-trigger">Login</button>
 
       <!-- Modal Structure -->
-      <div id="modal1" class="modal">
-        <div class="modal-content">
+      <div id="missingInput" class="modal notification">
+        <div class="modal-content" id="messageHolder">
           <span class="close">&times;</span>
-          <h4>Modal Header</h4>
-          <p>A bunch of text</p>
-          <button class="btn modal-trigger">Click Me!</button>
+          <p id="holdMesssage"></p>
         </div>
       </div>
 
   </nav>
 
 
-  <div class="page-header header-filter" data-parallax="true" style="background-image: url('assets/img/bg3.jpg')">
+  <div class="page-header header-filter" data-parallax="true" style="background-image: url('/assets/img/image.png')">
     <div class="container">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto">
           <div class="brand text-center">
             <h1>The A - Z Guide Of Photos in Your Area</h1>
-            <h3 class="title text-center">Need to put anything here?</h3>
+            <h3 class="title text-center">Scroll Down to Explore
+            </h3>
             <i class="fa fa-chevron-down"></i>
           </div>
         </div>
@@ -72,42 +71,60 @@
     </div>
   </div>
 
-
   <div class="main main-raised">
     <div class="container-fluid">
       <div class="section text-center">
         <h2 class="title">What to do?</h2>
       </div>
-      <div class="section tect-center">
-        <ol>
-          <li>Click on an area of interest.</li>
-          <li>If images exist, they will appear on the screen</li>
-          <li>If not, click on another area of interest</li>
-        </ol>
-      </div>
-      <div class="container-fluid">
         <div class="row">
           <div class="col-sm-12 col-md-6">
-            <h2>Click on a location</h2>
+            <h2><strong>Click on the Map</strong></h2> 
+          </div>
+          <div class="col-sm-12 col-md-6">
+              <h2><strong>Image Gallery</strong></h2>
+          </div>
+        </div> 
+    </div>
+    <div class="container-fluid">     
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <form>
+              <div class="map-direction">
+                <h3>Click anywhere on the map to see images taken in that area.</h3>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-3">
+            <form>
+              <div class="input-group2">
+                <label for="radius-input">Enter Radius</label>
+                <input id="radius-input" type="text" class="form-control">
+              </div>  
+            </form> 
+          </div>        
+          <div class="col-sm-3">
+            <form>
+              <div class="input-group2">      
+                <label for="image-input">Number of Pictures</label>
+                <input id="image-input" type="text" class="form-control">
+              </div>
+            </form>            
+          </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
             <div id="map"></div>
           </div>
           <div class="col-sm-12 col-md-6">
-            <div class="container-fluid header-holder input-group">
-              <h2 id="img-head">Image Gallery</h2>
-              <form>
-                <label for="radius-input">Radius:</label>
-                <input id="radius-input" type="text" placeholder="5">
-                <label for="radius-input">Image output:</label>
-                <input id="photoNum-input" type="text" placeholder="5">
-                <button class="btn btn-dark" id="update-numbers" type="submit">Update</button>
-              </form>
-            </div>
-            <div class="row" id="image-holder"></div>
+              <div class="row" id="image-holder"></div>
           </div>
-        </div>
-      </div>
+        </div> 
     </div>
-  </div>
+  </div>    
+     
+       
 
   <footer class="footer footer-default">
     <div class="container">
@@ -129,12 +146,8 @@
         <a href="https://www.creative-tim.com/" target="blank">Creative Tim</a> for a better web.
       </div>
     </div>
-    <div id="missingInput" class="modal notification">
-      <div class="modal-content" id="messageHolder">
-        <span class="close">&times;</span>
-        <p id="holdMesssage"></p>
-      </div>
-    </div>
+
+  
   </footer>
 
 

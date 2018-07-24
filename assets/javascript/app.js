@@ -3,6 +3,8 @@ $(".close").click(function () {
     $(this).parents(".modal").css("display", "none");
 });
 
+
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyDwUjEuyQskBoLECIntfN_rFIyWOQTetSA",
@@ -126,3 +128,24 @@ $("#image-holder").on("click", ".photo-thumb", function (event) {
     newHeart.text("heart");
     //newHeart.append($(this).parents())
 });
+
+$(function(){
+    $('.form-control').each(function(){
+        if($(this).val().length>0){
+            $(this).addClass('has-value');
+        }
+        else{
+            $(this).removeClass('has-value');
+        }
+    });
+    $('.form-control').on('focusout', function(){
+        if($(this).val().length>0){
+            $(this).addClass('has-value');
+        }
+        else{
+            $(this).removeClass('has-value');
+        }
+    });
+});
+
+      
