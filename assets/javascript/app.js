@@ -1,4 +1,3 @@
-
 $(".close").click(function () {
     $(this).parents(".modal").css("display", "none");
 });
@@ -71,17 +70,17 @@ initMap();
 //setting latitude and longitude as global variables so that they will be set when user clicks on map
 //and then read in the display photos function call
 //adding this as a variable in case we want users to determine how large a radius they want to search
-var flickRadius;
+var flickRadius = 5;
 //adding this as a variable in case we want users to determine how many photos to see
-var numOfPhotos;
+var numOfPhotos = 6;
 
 function displayPhotos() {
     //just setting these to known coordinates to test
     //ideally the values will be set in the on click function for google maps drop marker
     //arbitrarily setting to 5 - can have an input allowing users to choose
-    numOfPhotos = 5;
-    flickRadius = 2;
-    var apiKey = "d1beea40474435adacdf1ffb0d0e1248";
+    //numOfPhotos = 6;
+    //flickRadius = 2;
+    var apiKey = "5cecf5d590ae3c382e6bd6795a2d8262";
     var photoQueryURL = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" + apiKey + "&per_page=" + numOfPhotos + "&safe_search=1&has_geo=1&lat=" + latVar + "&lon=" + lonVar + "&radius=" + flickRadius + "&format=json&jsoncallback=?";
     console.log(photoQueryURL);
     $.ajax({
@@ -100,14 +99,22 @@ function displayPhotos() {
                 var farm = response.photos.photo[i].farm;
                 var server = response.photos.photo[i].server;
                 var secret = response.photos.photo[i].secret;
+                var newPhotoUrl = "https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg"
                 var newCol = $("<div>");
-                newCol.addClass("col-sm-6 col-md-4 imgCol");
+                newCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-6 imgCol");
+                newCol.attr("data-url", newPhotoUrl);
+                var newInnerDiv = $("<div>");
+                newInnerDiv.addClass("inner-div");
+                var newLink = $("<a>");
+                newLink.addClass("example-image-link");
+                newLink.attr("href", newPhotoUrl);
+                newLink.attr("data-lightbox", "example-set");
                 var newImg = $("<img>")
-                newImg.addClass("photo-thumb");
-                newImg.addClass("img-fluid");
+                newImg.addClass("example-image photo-thumb img-fluid");
                 newImg.attr("data-title", response.photos.photo[i].title);
-                newImg.attr("src", "https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
-                newCol.append(newImg)
+                newImg.attr("src", newPhotoUrl);
+                newInnerDiv.append(newImg);
+                newCol.append(newInnerDiv)
                 $("#image-holder").append(newCol);
 
             }
@@ -122,7 +129,39 @@ $("#image-holder").on("click", ".photo-thumb", function (event) {
         name: photoTitle,
         url: photoUrl
     });
-    var newHeart = $("<span>")
-    newHeart.text("heart");
-    //newHeart.append($(this).parents())
+    var newInnerDiv = $("<div>");
+    newInnerDiv.addClass("heart-holder");
+    var newHeart = $("<i>");
+    newHeart.addClass("material-icons heart-ico");
+    newHeart.text("favorite");
+    $(this).parents(".inner-div").append(newInnerDiv);
+    newInnerDiv.append(newHeart);
+});
+
+$("#update-numbers").on("click", function (event) {
+    // Don't refresh the page!
+    event.preventDefault();
+    // Get inputs
+    var photoNumFromUser = $("#photoNum-input").val().trim();
+    var radiusFromUser = $("#radius-input").val().trim();
+    console.log(photoNumFromUser);
+    console.log(radiusFromUser);
+
+    if (photoNumFromUser < 1 || photoNumFromUser > 12) {
+        $("#holdMesssage").text("Please enter a value between 1 and 10 for number of photos.");
+        $("#missingInput").css("display", "flex");
+    }
+    else if (radiusFromUser < 1 || radiusFromUser > 12) {
+        $("#holdMesssage").text("Please enter a value for radius between 1 and 12 miles.");
+        $("#missingInput").css("display", "flex");
+    }
+    else if (isNaN(radiusFromUser) === true || isNaN(photoNumFromUser) === true) {
+        $("#holdMesssage").text("Please enter a numerical value for each input.");
+        $("#missingInput").css("display", "flex");
+    }
+    else {
+        flickRadius = radiusFromUser;
+        numOfPhotos = photoNumFromUser;
+        displayPhotos();
+    }
 });
