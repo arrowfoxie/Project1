@@ -47,11 +47,8 @@ function placeMarkerAndPanTo(latLng, map) {
         map: map
     });
     map.panTo(latLng);
-    console.log("Latitude and longitude coordinates" + latLng.lat() + "and" + latLng.lng());
     latVar = latLng.lat();
     lonVar = latLng.lng();
-    console.log(latVar);
-    console.log(lonVar);
     displayPhotos();
 }
 
@@ -65,6 +62,27 @@ function initMap() {
         placeMarkerAndPanTo(e.latLng, map);
     });
 }
+function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }
+}
+
+function clearMarkers() {
+    setMapOnAll(null);
+}
+
+
+function showMarkers() {
+    setMapOnAll(map);
+}
+
+
+function deleteMarkers() {
+    clearMarkers();
+    markers = [];
+}
+
 initMap();
 
 //setting latitude and longitude as global variables so that they will be set when user clicks on map
@@ -82,7 +100,6 @@ function displayPhotos() {
     //flickRadius = 2;
     var apiKey = "5cecf5d590ae3c382e6bd6795a2d8262";
     var photoQueryURL = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" + apiKey + "&per_page=" + numOfPhotos + "&safe_search=1&has_geo=1&lat=" + latVar + "&lon=" + lonVar + "&radius=" + flickRadius + "&format=json&jsoncallback=?";
-    console.log(photoQueryURL);
     $.ajax({
         async: true,
         crossDomain: true,
@@ -93,7 +110,6 @@ function displayPhotos() {
     })
         .then(function (response) {
             $("#image-holder").empty();
-            console.log(response);
             for (i = 0; i < numOfPhotos; i++) {
                 var photoId = response.photos.photo[i].id;
                 var farm = response.photos.photo[i].farm;
@@ -123,8 +139,9 @@ function displayPhotos() {
             }
         });
 }
-$("#image-holder").on("click", ".photo-thumb", function (event) {
+$(document).on("click", ".heart-ico", function (event) {
     event.preventDefault();
+    console.log("boop");
     console.log($(this).attr("src"))
     var photoUrl = $(this).attr("src")
     var photoTitle = $(this).attr("data-title")
@@ -132,13 +149,6 @@ $("#image-holder").on("click", ".photo-thumb", function (event) {
         name: photoTitle,
         url: photoUrl
     });
-    var newInnerDiv = $("<div>");
-    newInnerDiv.addClass("heart-holder");
-    var newHeart = $("<i>");
-    newHeart.addClass("material-icons heart-ico");
-    newHeart.text("favorite");
-    $(this).parents(".inner-div").append(newInnerDiv);
-    newInnerDiv.append(newHeart);
 });
 
 $("#update-numbers").on("click", function (event) {
@@ -167,4 +177,23 @@ $("#update-numbers").on("click", function (event) {
         numOfPhotos = photoNumFromUser;
         displayPhotos();
     }
+});
+
+$(function(){
+    $('.form-control').each(function(){
+        if($(this).val().length>0){
+            $(this).addClass('has-value');
+        }
+        else{
+            $(this).removeClass('has-value');
+        }
+    });
+    $('.form-control').on('focusout', function(){
+        if($(this).val().length>0){
+            $(this).addClass('has-value');
+        }
+        else{
+            $(this).removeClass('has-value');
+        }
+    });
 });

@@ -33,28 +33,46 @@
   <nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
     <div class="container-fluid">
       <div class="navbar-translate">
-
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <button id="modalBtn" data-target="modal" class="btn modal-trigger">Login</button>
+        <h6>Sign in or Create an account</h6>
       </div>
-      <!-- Modal Trigger -->
-      <button id="mybtn" data-target="modal1" class="btn modal-trigger">Login</button>
+    </div>
 
-      <!-- Modal Structure -->
-      <div id="missingInput" class="modal notification">
-        <div class="modal-content" id="messageHolder">
+
+    <!-- Modal Structure for login-->
+    <div id="loginModal" class="modal modal1">
+      <div class="modal-content1">
+        <div class="modal-header">
           <span class="close">&times;</span>
-          <p id="holdMesssage"></p>
+          <h2>
+            <strong>Login Below</strong>
+          </h2>
+        </div>
+        <div class="modal-body">
+          <form class="navbar-form navbar-inverse" role="search" id="form-conrol">
+            <label for="email-input">Email Address:</label>
+            <input id="email-input" type="text" placeholder="Enter email address">
+            <label for="password-input">Password:</label>
+            <input id="password-input" type="text" placeholder="Enter password">
+            <button class="btn btn-dark" id="login-update" type="submit">Sign In</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <h3>
+            <strong>The A - Z Guide Of Photos in Your Area</strong>
+          </h3>
         </div>
       </div>
+    </div>
 
+    <!-- This Modal is for User Validation-->
+    <div id="missingInput" class="modal notification">
+      <div class="modal-content" id="messageHolder">
+        <span class="close">&times;</span>
+        <p id="holdMesssage"></p>
+      </div>
+    </div>
   </nav>
-
 
   <div class="page-header header-filter" data-parallax="true" style="background-image: url('/assets/img/image.png')">
     <div class="container">
@@ -62,8 +80,7 @@
         <div class="col-md-8 ml-auto mr-auto">
           <div class="brand text-center">
             <h1>The A - Z Guide Of Photos in Your Area</h1>
-            <h3 class="title text-center">Scroll Down to Explore
-            </h3>
+            <h3 class="title text-center">Scroll Down to Explore</h3>
             <i class="fa fa-chevron-down"></i>
           </div>
         </div>
@@ -74,7 +91,7 @@
   <div class="main main-raised">
     <div class="container-fluid">
       <div class="section text-center">
-        <h2 class="title">What to do?</h2>
+        <h3 class="title">"Wander often, wonder always."</h3>
       </div>
       <div class="row">
         <div class="col-sm-12 col-md-6">
@@ -94,12 +111,12 @@
         <div class="col-sm-12 col-md-6">
           <form>
             <div class="map-direction">
-              <h3>Click anywhere on the map to see images taken in that area.</h3>
+              <h3 id="map-style">Click anywhere on the map to see images taken in that area.</h3>
             </div>
           </form>
         </div>
-        <div class="col-sm-3">
-          <form class="navbar-form navbar-inverse" role="search">
+        <div class="col-sm-12 col-md-6">
+          <form class="navbar-form navbar-inverse" role="search" id="form-conrol">
             <label for="radius-input">Radius:</label>
             <input id="radius-input" type="text" placeholder="5">
             <label for="photoNum-input">Image output:</label>
@@ -107,7 +124,6 @@
             <button class="btn btn-dark" id="update-numbers" type="submit">Update</button>
           </form>
         </div>
-        
       </div>
     </div>
     <div class="container-fluid">
