@@ -1,6 +1,6 @@
 # Project1
 
-## The A - Z Guide Of top Flickr Photos in Your Area
+## The A - Z Guide Of Top Flickr Photos in Your Area
 
 This is a web application built using the Google Maps API and the Flickr API.
 
@@ -19,7 +19,7 @@ Upon clicking a location, photos tagged with the same location on Flickr will be
 * **Aamir Malik** - *Front-End Development* - [GitHub](https://github.com/aamir-malik22188)
 * **Lucy McGuigan** - *Flickr Captain* - [GitHub](https://github.com/lmcguigan)
 * **Russell Ott** - *Google Maps Captain* - [GitHub](https://github.com/russellaott)
-* **Sterling Smith** - *Front-End Development* - [GitHub](https://github.com/arrowfoxie)
+* **Sterling Smith** - *Firebase* - [GitHub](https://github.com/arrowfoxie)
 
 ## Acknowledgments
 
