@@ -78,7 +78,19 @@
       </div>
         <div class="row">
           <div class="col-sm-12 col-md-6">
+
             <h2><strong>Click on the Map</strong></h2> 
+
+           
+            <div id="floating-panel">
+              <input onclick="clearMarkers();" type=button value="Hide Markers">
+              <input onclick="showMarkers();" type=button value="Show All Markers">
+              <input onclick="deleteMarkers();" type=button value="Delete Markers">
+            </div>
+            <p>Click on the map to add markers.</p>
+           
+            <div id="map"></div>
+
           </div>
           <div class="col-sm-12 col-md-6">
               <h2><strong>Image Gallery</strong></h2>
@@ -109,6 +121,14 @@
                 <input id="image-input" type="text" class="form-control">
               </div>
             </form>            
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="floating-panel">
+              <input onclick="clearMarkers();" type=button value="Hide Markers">
+              <input onclick="showMarkers();" type=button value="Show All Markers">
+              <input onclick="deleteMarkers();" type=button value="Delete Markers">
+            </div>
+            <p>Click on the map to add markers.</p>
           </div>
         </div>
     </div>

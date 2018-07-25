@@ -100,7 +100,7 @@ iframe {
 }
 
 input {
-    width: 20px;
+ 
     height: 20px;
     font-size: 10px;
     color: rgb(60, 72, 88);
@@ -124,6 +124,7 @@ label {
 #update-numbers {
     padding: 5px;
 }
+
 
 /*animation code for down arrow*/
 .fa-chevron-down{
@@ -176,3 +177,17 @@ h2{
     font-size:25px;
     text-align: center;
 }
+
+#floating-panel {
+    position: absolute;
+    top: 125px;
+    left: 24%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 14px;
+    padding-left: 10px;
+  }
+
