@@ -118,9 +118,9 @@
         <div class="col-sm-12 col-md-6">
           <form class="navbar-form navbar-inverse" role="search" id="form-conrol">
             <label for="radius-input">Radius:</label>
-            <input id="radius-input" type="text" placeholder="5">
+            <input id="radius-input" class="numberInputs" type="text" placeholder="5">
             <label for="photoNum-input">Image output:</label>
-            <input id="photoNum-input" type="text" placeholder="5">
+            <input id="photoNum-input" class="numberInputs" type="text" placeholder="5">
             <button class="btn btn-dark" id="update-numbers" type="submit">Update</button>
           </form>
         </div>
@@ -128,7 +128,14 @@
     </div>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-6" id="mapHolder">
+          <div id="floating-panel">
+            <input onclick="clearMarkers();" type=button class="mapbtn" value="Hide Markers">
+            <br>
+            <input onclick="showMarkers();" type=button class="mapbtn" value="Show All Markers">
+            <br>
+            <input onclick="deleteMarkers();" type=button class="mapbtn" value="Delete Markers">
+          </div>
           <div id="map"></div>
         </div>
         <div class="col-sm-12 col-md-6">

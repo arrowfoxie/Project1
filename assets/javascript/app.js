@@ -16,44 +16,61 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-var provider = new firebase.auth.GoogleAuthProvider();
-provider.addScope('email');
 
-$("#mybtn").on("click", function () {
-    firebase.auth().signInWithPopup(provider).then(function (result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        // ...
-    }).catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        // ...
-    });
-});
+var provider = new firebase.auth.GoogleAuthProvider();
+
+function googleSignin() {
+    firebase.auth()
+
+        .signInWithPopup(provider).then(function (result) {
+            var token = result.credential.accessToken;
+            var user = result.user;
+
+            console.log(token)
+            console.log(user)
+
+        }).catch(function (error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+            console.log(error.code)
+            console.log(error.message)
+        });
+}
+
+function googleSignout() {
+    firebase.auth().signOut()
+
+        .then(function () {
+            console.log('Signout Succesfull')
+        }, function (error) {
+            console.log('Signout Failed')
+        });
+}
 
 var latVar;
 var lonVar;
+var markers = [];
+var map;
 
 function placeMarkerAndPanTo(latLng, map) {
-    var marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         position: latLng,
         map: map
     });
     map.panTo(latLng);
+    console.log("Latitude and longitude coordinates" + latLng.lat() + "and" + latLng.lng());
     latVar = latLng.lat();
     lonVar = latLng.lng();
+    console.log(latVar);
+    console.log(lonVar);
     displayPhotos();
+    markers.push(marker);
 }
 
+
 function initMap() {
-    var map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
         zoom: 4,
         center: { lat: 32.841199, lng: -96.784529 }
     });
@@ -61,6 +78,7 @@ function initMap() {
     map.addListener('click', function (e) {
         placeMarkerAndPanTo(e.latLng, map);
     });
+
 }
 function setMapOnAll(map) {
     for (var i = 0; i < markers.length; i++) {
@@ -99,7 +117,7 @@ function displayPhotos() {
     //numOfPhotos = 6;
     //flickRadius = 2;
     var apiKey = "5cecf5d590ae3c382e6bd6795a2d8262";
-    var photoQueryURL = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" + apiKey + "&per_page=" + numOfPhotos + "&safe_search=1&has_geo=1&lat=" + latVar + "&lon=" + lonVar + "&radius=" + flickRadius + "&format=json&jsoncallback=?";
+    var photoQueryURL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" + apiKey + "&per_page=" + numOfPhotos + "&safe_search=1&has_geo=1&lat=" + latVar + "&lon=" + lonVar + "&radius=" + flickRadius + "&format=json&jsoncallback=?";
     $.ajax({
         async: true,
         crossDomain: true,
@@ -125,7 +143,8 @@ function displayPhotos() {
                 newLink.addClass("example-image-link");
                 newLink.attr("href", newPhotoUrl);
                 newLink.attr("data-lightbox", "example-set");
-                newLink.attr("data-title", response.photos.photo[i].title);
+                var PhotoTitle = response.photos.photo[i].title;
+                newLink.attr("data-title", PhotoTitle);
                 var newImg = $("<img>")
                 newImg.addClass("example-image photo-thumb img-fluid");
                 //newImg.attr("data-title", response.photos.photo[i].title);
@@ -135,6 +154,13 @@ function displayPhotos() {
                 newInnerDiv.append(newLink);
                 newCol.append(newInnerDiv)
                 $("#image-holder").append(newCol);
+                console.log(PhotoTitle);
+
+                database.ref().push({
+                    title: PhotoTitle,
+                    url: newPhotoUrl
+                })
+
 
             }
         });
@@ -142,13 +168,6 @@ function displayPhotos() {
 $(document).on("click", ".heart-ico", function (event) {
     event.preventDefault();
     console.log("boop");
-    console.log($(this).attr("src"))
-    var photoUrl = $(this).attr("src")
-    var photoTitle = $(this).attr("data-title")
-    database.ref().child("favImg").push({
-        name: photoTitle,
-        url: photoUrl
-    });
 });
 
 $("#update-numbers").on("click", function (event) {
@@ -179,21 +198,26 @@ $("#update-numbers").on("click", function (event) {
     }
 });
 
-$(function(){
-    $('.form-control').each(function(){
-        if($(this).val().length>0){
+$(function () {
+    $('.form-control').each(function () {
+        if ($(this).val().length > 0) {
             $(this).addClass('has-value');
         }
-        else{
+        else {
             $(this).removeClass('has-value');
         }
     });
-    $('.form-control').on('focusout', function(){
-        if($(this).val().length>0){
+    $('.form-control').on('focusout', function () {
+        if ($(this).val().length > 0) {
             $(this).addClass('has-value');
         }
-        else{
+        else {
             $(this).removeClass('has-value');
         }
     });
+});
+
+$("#modalBtn").on("click", function (event) {
+    event.preventDefault();
+    $("#loginModal").css("display", "block");
 });

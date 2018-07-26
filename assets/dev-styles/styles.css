@@ -97,13 +97,6 @@ h3 {
     display: none;
 }
 
-input {
-    width: 20px;
-    height: 20px;
-    font-size: 10px;
-    color: rgb(60, 72, 88);
-}
-
 label {
     color: rgb(60, 72, 88);
 }
@@ -168,10 +161,11 @@ label {
 
 .heart-ico {
     color: hotpink;
-    float:left;
+    float: left;
     text-shadow: 1px 1px 2px #343a40;
     font-size: 29px;
 }
+
 .heart-ico:hover {
     color: rgb(192, 81, 137);
     cursor: pointer;
@@ -213,6 +207,175 @@ h2 {
     font-size: 25px;
     text-align: center;
 }
+
 .lb-data .lb-details {
     width: 84%;
 }
+
+/*Below is the CSS for the Login Modal*/
+
+.modal-trigger {
+    background: blue;
+    padding: 1em 2em;
+    color: white;
+    border: 0;
+}
+
+.modal-trigger:hover {
+    background: purple;
+}
+
+.modal1 {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content1 {
+    background-color: whitesmoke;
+    margin: 10% auto;
+    padding: 20px;
+    width: 70%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0.17);
+    animation-name: modalopen;
+    animation-duration: 2s;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    padding: 15px;
+    color: white;
+}
+
+.modal-body {
+    padding: 40px;
+}
+
+#email-input {
+    color: blue;
+    font-size: 15px;
+    border: none;
+    border-bottom: 1px solid black;
+    height: 18px;
+    Width: 25%;
+    text-align: center;
+}
+
+#password-input {
+    color: blue;
+    font-size: 15px;
+    border: none;
+    border-bottom: 1px solid gray;
+    height: 18px;
+    Width: 25%;
+    text-align: center;
+}
+
+#login-update {
+    display: flex;
+    color: white;
+    background-color: rgb(20, 187, 243) !important;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid blue;
+    height: 22px;
+    padding: 0 16px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px lighten(black, 60%);
+}
+
+.closeBtn {
+    color: #ccc;
+    font-size: 30px;
+}
+
+.closeBtn:hover, .closeBtn:focus {
+    color: blue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    font-family: 'Merienda', cursive;
+}
+
+@keyframes modalopen {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+/*CSS for the image gallery side of the screen*/
+
+.navbar-form {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 25px;
+}
+
+label {
+    color: black;
+    font-size: 16px;
+}
+
+.numberInputs {
+    color: blue;
+    font-size: 15px;
+    border: none;
+    border-bottom: 1px solid black;
+    height: 18px;
+    Width: 25%;
+    text-align: center;
+}
+
+#update-numbers {
+    display: flex;
+    color: white;
+    background-color: rgb(20, 187, 243) !important;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid blue;
+    height: 22px;
+    padding: 0 16px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px lighten(black, 60%);
+}
+
+#floating-panel {
+    position: relative;
+    top: 400px;
+    right: 40%;
+    z-index: 5;
+    background: none;
+    padding: 4px;
+    border: none;
+    text-align: center;
+    line-height: 14px;
+  }
+  
+  .mapbtn{
+    color: white;
+    background-color: rgb(128, 128, 128) !important;
+    font-size: 10px;
+    font-weight: bold;
+    height: 22px;
+    width: 100px;
+    padding: 0 8px;
+    box-shadow: 0 1px 3px lighten(black, 60%);
+    margin: 1px;
+  }
