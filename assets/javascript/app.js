@@ -156,8 +156,6 @@ function displayPhotos() {
                 newInnerDiv.append(newLink);
                 newCol.append(newInnerDiv)
                 $("#image-holder").append(newCol);
-                console.log(PhotoTitle);
-
                 database.ref().push({
                     title: PhotoTitle,
                     url: newPhotoUrl
@@ -224,17 +222,40 @@ $("#modalBtn").on("click", function (event) {
     $("#loginModal").css("display", "block");
 });
 var userEmail = "";
-
+var userPassword = "";
+var isLoggedIn = false;
 $("#login-update").on("click", function (event) {
     event.preventDefault();
     userEmail = $("#email-input").val().trim();
     userPassword = $("#password-input").val().trim();
     console.log(userEmail);
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+    });
+    isLoggedIn = true;
+    $("#loginModal").css("display", "none");
+});
+
+$("#new-account").on("click", function (event) {
+    event.preventDefault();
+    $("#loginModal").css("display", "none");
+    $("#signUpModal").css("display", "block");
+});
+
+$("#create-new-user").on("click", function (event) {
+    event.preventDefault();
+    userName = $("#new-name-input").val().trim();
+    userEmail = $("#new-email-input").val().trim();
+    userPassword = $("#new-password-input").val().trim();
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
     });
-    $("#loginModal").css("display", "none");
+    isLoggedIn = true;
+    $("#signUpModal").css("display", "none");
 });

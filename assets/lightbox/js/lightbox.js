@@ -99,7 +99,7 @@
     }
 
     var self = this;
-    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><i class = "material-icons heart-ico" data-url = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">favorite</i><a class="lb-close"></a></div></div></div></div>').appendTo($('body'));
+    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><i class = "material-icons heart-ico" data-state = "unliked">favorite</i><a class="lb-close"></a></div></div></div></div>').appendTo($('body'));
 
     // Cache jQuery objects
     this.$lightbox = $('#lightbox');
@@ -195,21 +195,27 @@
     /**/
     this.$lightbox.find('.heart-ico').on('click', function () {
       console.log(self);
-      //var ImgUrl = self.attr("data-url");
       var currentPlace = self.currentImageIndex;
-      console.log(currentPlace);
       var ImgUrl = self.album[currentPlace].link;
-      console.log(ImgUrl);
       var ImgTitle = self.album[currentPlace].title;
-      console.log(ImgTitle);
-      console.log(userEmail);
-      database.ref().push({
-        user: "userName",
-        userEmail: userEmail,
-        favorite: "favorite",
-        title: ImgTitle,
-        url: ImgUrl
-      })
+      var imgState = self.album[currentPlace].state;
+      console.log(this);
+      console.log(imgState);
+      if (imgState === "unliked") {
+        database.ref().push({
+          user: "userName",
+          userEmail: userEmail,
+          favorite: "favorite",
+          title: ImgTitle,
+          url: ImgUrl
+        })
+        self.album[currentPlace].state = "liked";
+        $(this).css("color", "hotpink");
+      }
+      else {
+        $("#holdMesssage").text("You've already added this photo to your favorites.");
+        $("#missingInput").css("display", "flex");
+      }
     });
   };
 
@@ -233,7 +239,8 @@
       self.album.push({
         alt: $link.attr('data-alt'),
         link: $link.attr('href'),
-        title: $link.attr('data-title') || $link.attr('title')
+        title: $link.attr('data-title') || $link.attr('title'),
+        state: "unliked"
       });
     }
 
