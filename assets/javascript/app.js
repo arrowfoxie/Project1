@@ -221,3 +221,18 @@ $("#modalBtn").on("click", function (event) {
     event.preventDefault();
     $("#loginModal").css("display", "block");
 });
+var userEmail = "";
+
+$("#login-update").on("click", function (event) {
+    event.preventDefault();
+    userEmail = $("#email-input").val().trim();
+    userPassword = $("#password-input").val().trim();
+    console.log(userEmail);
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+    });
+    $("#loginModal").css("display", "none");
+});

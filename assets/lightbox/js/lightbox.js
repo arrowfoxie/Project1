@@ -202,9 +202,10 @@
       console.log(ImgUrl);
       var ImgTitle = self.album[currentPlace].title;
       console.log(ImgTitle);
+      console.log(userEmail);
       database.ref().push({
         user: "userName",
-        user: "userEmail",
+        userEmail: userEmail,
         favorite: "favorite",
         title: ImgTitle,
         url: ImgUrl

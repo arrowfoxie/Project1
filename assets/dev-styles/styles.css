@@ -238,9 +238,9 @@ h2 {
 }
 
 .modal-content1 {
+    border-radius: 4.8px;
     background-color: whitesmoke;
     margin: 10% auto;
-    padding: 20px;
     width: 70%;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0.17);
     animation-name: modalopen;
@@ -265,7 +265,7 @@ h2 {
     border: none;
     border-bottom: 1px solid black;
     height: 18px;
-    Width: 25%;
+    Width: 100%;
     text-align: center;
 }
 
@@ -275,7 +275,7 @@ h2 {
     border: none;
     border-bottom: 1px solid gray;
     height: 18px;
-    Width: 25%;
+    Width: 100%;
     text-align: center;
 }
 
@@ -305,6 +305,7 @@ h2 {
 
 .modal-footer {
     display: flex;
+    color: black;
     justify-content: center;
     font-family: 'Merienda', cursive;
 }
