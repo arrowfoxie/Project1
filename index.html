@@ -39,6 +39,7 @@
     </div>
 
 
+<<<<<<< HEAD
     <!-- Modal Structure for login-->
     <div id="loginModal" class="modal modal1">
       <div class="modal-content1">
@@ -61,6 +62,13 @@
           <h3>
             <strong>The A - Z Guide Of Photos in Your Area</strong>
           </h3>
+=======
+      <!-- Modal Structure -->
+      <div id="missingInput" class="modal notification">
+        <div class="modal-content" id="messageHolder">
+          <span class="close">&times;</span>
+          <p id="holdMesssage"></p>
+>>>>>>> master
         </div>
       </div>
     </div>
@@ -74,13 +82,22 @@
     </div>
   </nav>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   <div class="page-header header-filter" data-parallax="true" style="background-image: url('/assets/img/image.png')">
     <div class="container">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto">
           <div class="brand text-center">
             <h1>The A - Z Guide Of Photos in Your Area</h1>
+<<<<<<< HEAD
             <h3 class="title text-center">Scroll Down to Explore</h3>
+=======
+            <h3 class="title text-center">Scroll Down to Explore
+            </h3>
+>>>>>>> master
             <i class="fa fa-chevron-down"></i>
           </div>
         </div>
@@ -93,6 +110,7 @@
       <div class="section text-center">
         <h3 class="title">"Wander often, wonder always."</h3>
       </div>
+<<<<<<< HEAD
       <div class="row">
         <div class="col-sm-12 col-md-6">
           <h2>
@@ -135,15 +153,81 @@
             <input onclick="showMarkers();" type=button class="mapbtn" value="Show All Markers">
             <br>
             <input onclick="deleteMarkers();" type=button class="mapbtn" value="Delete Markers">
+=======
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+
+            <h2><strong>Click on the Map</strong></h2> 
+
+           
+            <div id="floating-panel">
+              <input onclick="clearMarkers();" type=button value="Hide Markers">
+              <input onclick="showMarkers();" type=button value="Show All Markers">
+              <input onclick="deleteMarkers();" type=button value="Delete Markers">
+            </div>
+            <p>Click on the map to add markers.</p>
+           
+            <div id="map"></div>
+
+          </div>
+          <div class="col-sm-12 col-md-6">
+              <h2><strong>Image Gallery</strong></h2>
+          </div>
+        </div> 
+    </div>
+    <div class="container-fluid">     
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <form>
+              <div class="map-direction">
+                <h3>Click anywhere on the map to see images taken in that area.</h3>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-3">
+            <form>
+              <div class="input-group2">
+                <label for="radius-input">Enter Radius</label>
+                <input id="radius-input" type="text" class="form-control">
+              </div>  
+            </form> 
+          </div>        
+          <div class="col-sm-3">
+            <form>
+              <div class="input-group2">      
+                <label for="image-input">Number of Pictures</label>
+                <input id="image-input" type="text" class="form-control">
+              </div>
+            </form>            
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="floating-panel">
+              <input onclick="clearMarkers();" type=button value="Hide Markers">
+              <input onclick="showMarkers();" type=button value="Show All Markers">
+              <input onclick="deleteMarkers();" type=button value="Delete Markers">
+            </div>
+            <p>Click on the map to add markers.</p>
+>>>>>>> master
           </div>
           <div id="map"></div>
         </div>
         <div class="col-sm-12 col-md-6">
           <div class="row" id="image-holder"></div>
         </div>
-      </div>
     </div>
-  </div>
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div id="map"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+              <div class="row" id="image-holder"></div>
+          </div>
+        </div> 
+    </div>
+  </div>    
+     
+       
 
 
 
@@ -168,7 +252,11 @@
       </div>
     </div>
 
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> master
   </footer>
 
 

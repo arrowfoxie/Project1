@@ -2,6 +2,8 @@ $(".close").click(function () {
     $(this).parents(".modal").css("display", "none");
 });
 
+
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyDwUjEuyQskBoLECIntfN_rFIyWOQTetSA",
@@ -15,8 +17,13 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+<<<<<<< HEAD
 
 
+=======
+var markers = [];
+var map;
+>>>>>>> master
 var provider = new firebase.auth.GoogleAuthProvider();
 
 function googleSignin() {
@@ -71,6 +78,7 @@ function placeMarkerAndPanTo(latLng, map) {
 
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
+<<<<<<< HEAD
         zoom: 4,
         center: { lat: 32.841199, lng: -96.784529 }
     });
@@ -102,6 +110,39 @@ function deleteMarkers() {
 }
 
 initMap();
+=======
+         zoom: 4,
+         center: { lat: 32.841199, lng: -96.784529 }
+     });
+ 
+     map.addListener('click', function (e) {
+         placeMarkerAndPanTo(e.latLng, map);
+     });
+     
+ }
+ function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+ 
+ function clearMarkers() {
+        setMapOnAll(null);
+      }
+
+    
+      function showMarkers() {
+        setMapOnAll(map);
+      }
+
+   
+      function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+      }
+
+      initMap();
+>>>>>>> master
 
 //setting latitude and longitude as global variables so that they will be set when user clicks on map
 //and then read in the display photos function call
@@ -234,5 +275,33 @@ $("#login-update").on("click", function (event) {
         var errorMessage = error.message;
         // ...
     });
+<<<<<<< HEAD
     $("#loginModal").css("display", "none");
 });
+=======
+    var newHeart = $("<span>")
+    newHeart.text("heart");
+    //newHeart.append($(this).parents())
+});
+
+$(function(){
+    $('.form-control').each(function(){
+        if($(this).val().length>0){
+            $(this).addClass('has-value');
+        }
+        else{
+            $(this).removeClass('has-value');
+        }
+    });
+    $('.form-control').on('focusout', function(){
+        if($(this).val().length>0){
+            $(this).addClass('has-value');
+        }
+        else{
+            $(this).removeClass('has-value');
+        }
+    });
+});
+
+      
+>>>>>>> master

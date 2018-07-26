@@ -1,11 +1,12 @@
-.page-header {
-    padding: 100px;
+.page-header{
+    padding:100px;
     height: 900px;
 }
 
 .main-raised {
     top: 100px;
     height: 750px;
+    margin: 50;
     overflow: auto;
     border: solid black;
 }
