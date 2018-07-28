@@ -29,7 +29,7 @@ function placeMarkerAndPanTo(latLng, map) {
         map: map
     });
     map.panTo(latLng);
-    console.log("Latitude and longitude coordinates" + latLng.lat() + "and" + latLng.lng());
+    console.log("Latitude and longitude coordinates " + latLng.lat() + " and " + latLng.lng());
     latVar = latLng.lat();
     lonVar = latLng.lng();
     displayPhotos();
@@ -142,8 +142,6 @@ $("#update-numbers").on("click", function (event) {
     // Get inputs
     var photoNumFromUser = $("#photoNum-input").val().trim();
     var radiusFromUser = $("#radius-input").val().trim();
-    console.log(photoNumFromUser);
-    console.log(radiusFromUser);
 
     if (photoNumFromUser < 1 || photoNumFromUser > 12) {
         $("#holdMesssage").text("Please enter a value between 1 and 12 for number of photos.");
@@ -272,4 +270,19 @@ $("#create-new-user").on("click", function (event) {
         }
         // ...
     });
+});
+$("#myfavs").on("click", function (event) {
+    event.preventDefault();
+    console.log("hi");
+    var usersFavs = database.ref("favorites/" + user.uid);
+    console.log(usersFavs);
+    usersFavs.on("child_added", function (snapshot) {
+        var likedUrl = snapshot.val().url;
+        console.log(likedUrl);
+        var likedTitle = snapshot.val().title;
+        console.log(likedTitle);
+        
+    });
+    $("#holdMesssage").append();
+    $("#missingInput").css("display", "flex");
 });
