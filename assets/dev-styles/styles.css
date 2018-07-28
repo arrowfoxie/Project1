@@ -421,7 +421,24 @@ label {
     float: none;
     width: 100%;
 }
-.directionText{
+
+.directionText {
     display: flex;
     justify-content: center;
+}
+
+.lb-closeContainer {
+    width: fit-content;
+    display: flex;
+    justify-content: right;
+}
+.lb-close{
+    margin-left: 10px;
+}
+.lb-data{
+    display: flex;
+    align-content: space-around;
+}
+.lb-details{
+    width: auto;
 }
