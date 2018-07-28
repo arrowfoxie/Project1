@@ -101,39 +101,42 @@ function displayPhotos() {
         .then(function (response) {
             $("#image-holder").empty();
             for (i = 0; i < numOfPhotos; i++) {
-                console.log(response);
-                var photoId = response.photos.photo[i].id;
-                var farm = response.photos.photo[i].farm;
-                var server = response.photos.photo[i].server;
-                var secret = response.photos.photo[i].secret;
-                var newPhotoUrl = "https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg"
-                var newCol = $("<div>");
-                newCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-6 imgCol");
-                newCol.attr("data-url", newPhotoUrl);
-                var newInnerDiv = $("<div>");
-                newInnerDiv.addClass("inner-div");
-                var newLink = $("<a>");
-                newLink.addClass("example-image-link");
-                newLink.attr("href", newPhotoUrl);
-                newLink.attr("data-lightbox", "example-set");
-                var PhotoTitle = response.photos.photo[i].title;
-                newLink.attr("data-title", PhotoTitle);
-                var newImg = $("<img>")
-                newImg.addClass("example-image photo-thumb img-fluid");
-                //newImg.attr("data-title", response.photos.photo[i].title);
-                newImg.attr("src", newPhotoUrl);
-                newImg.attr("alt", response.photos.photo[i].title);
-                newLink.append(newImg);
-                newInnerDiv.append(newLink);
-                newCol.append(newInnerDiv)
-                $("#image-holder").append(newCol);
-                database.ref("photosLoaded/").push({
-                    title: PhotoTitle,
-                    url: newPhotoUrl
-                }).then((snap) => {
-                    console.log(snap.key)
-                })
-
+                if (response.photos.photo.length === 0) {
+                    $("#holdMesssage").text("There are no photos here, please choose a different location.");
+                    $("#missingInput").css("display", "flex");
+                }
+                else {
+                    var photoId = response.photos.photo[i].id;
+                    var farm = response.photos.photo[i].farm;
+                    var server = response.photos.photo[i].server;
+                    var secret = response.photos.photo[i].secret;
+                    var newPhotoUrl = "https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg"
+                    var newCol = $("<div>");
+                    newCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-6 imgCol");
+                    newCol.attr("data-url", newPhotoUrl);
+                    var newInnerDiv = $("<div>");
+                    newInnerDiv.addClass("inner-div");
+                    var newLink = $("<a>");
+                    newLink.addClass("example-image-link");
+                    newLink.attr("href", newPhotoUrl);
+                    newLink.attr("data-lightbox", "example-set");
+                    var PhotoTitle = response.photos.photo[i].title;
+                    newLink.attr("data-title", PhotoTitle);
+                    var newImg = $("<img>")
+                    newImg.addClass("example-image photo-thumb img-fluid");
+                    newImg.attr("src", newPhotoUrl);
+                    newImg.attr("alt", response.photos.photo[i].title);
+                    newLink.append(newImg);
+                    newInnerDiv.append(newLink);
+                    newCol.append(newInnerDiv)
+                    $("#image-holder").append(newCol);
+                    database.ref("photosLoaded/").push({
+                        title: PhotoTitle,
+                        url: newPhotoUrl
+                    }).then((snap) => {
+                        console.log(snap.key)
+                    })
+                }
             }
         });
 }
@@ -195,6 +198,7 @@ $("#modalBtn").on("click", function (event) {
     else if (isLoggedIn === true) {
         firebase.auth().signOut().then(function () {
             isLoggedIn = false;
+            user = null;
             // Sign-out successful.
         }).catch(function (error) {
             console.log(error);
@@ -238,6 +242,8 @@ $("#login-update").on("click", function (event) {
         }
         console.log(error);
     });
+    $("#email-input").val("");
+    $("#password-input").val("");
 });
 
 $("#new-account").on("click", function (event) {
@@ -275,6 +281,7 @@ $("#create-new-user").on("click", function (event) {
     });
 });
 var favRow = $("<div>");
+//here is where the problem is
 function displayFavs() {
     $("#photoHolder").empty();
     //var favCol = $("<div>");
