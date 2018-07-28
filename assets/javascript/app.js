@@ -6,12 +6,12 @@ $(".close").click(function () {
 
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyDwUjEuyQskBoLECIntfN_rFIyWOQTetSA",
-    authDomain: "maps-and-photos.firebaseapp.com",
-    databaseURL: "https://maps-and-photos.firebaseio.com",
-    projectId: "maps-and-photos",
-    storageBucket: "maps-and-photos.appspot.com",
-    messagingSenderId: "1046812116045"
+    apiKey: "AIzaSyDBYdHzf4mLOzxj8d20J5NyvnSnw969AIM",
+    authDomain: "rabbit-e67ed.firebaseapp.com",
+    databaseURL: "https://rabbit-e67ed.firebaseio.com",
+    projectId: "rabbit-e67ed",
+    storageBucket: "rabbit-e67ed.appspot.com",
+    messagingSenderId: "594792130639"
 };
 
 firebase.initializeApp(config);
@@ -101,6 +101,7 @@ function displayPhotos() {
         .then(function (response) {
             $("#image-holder").empty();
             for (i = 0; i < numOfPhotos; i++) {
+                console.log(response);
                 var photoId = response.photos.photo[i].id;
                 var farm = response.photos.photo[i].farm;
                 var server = response.photos.photo[i].server;
@@ -129,8 +130,9 @@ function displayPhotos() {
                 database.ref("photosLoaded/").push({
                     title: PhotoTitle,
                     url: newPhotoUrl
+                }).then((snap) => {
+                    console.log(snap.key)
                 })
-
 
             }
         });
@@ -187,7 +189,6 @@ var isLoggedIn = false;
 
 $("#modalBtn").on("click", function (event) {
     event.preventDefault();
-    console.log(isLoggedIn);
     if (isLoggedIn === false) {
         $("#loginModal").css("display", "block");
     }
@@ -203,7 +204,8 @@ $("#modalBtn").on("click", function (event) {
     }
 });
 var user = firebase.auth().currentUser;
-
+var usersPhotos;
+console.log(usersPhotos);
 $("#login-update").on("click", function (event) {
     event.preventDefault();
     providedUserEmail = $("#email-input").val().trim();
@@ -213,10 +215,11 @@ $("#login-update").on("click", function (event) {
         isLoggedIn = true;
         userEmail = providedUserEmail;
         userPassword = providedUserPassword;
-        console.log(user);
         $("#loginModal").css("display", "none");
         $("#modalBtn").text("SIGN OUT");
         $("#navmessage").text("Signed in as " + userEmail);
+        usersPhotos = database.ref("favorites/" + user.uid);
+        console.log(usersPhotos);
     }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -271,18 +274,53 @@ $("#create-new-user").on("click", function (event) {
         // ...
     });
 });
-$("#myfavs").on("click", function (event) {
-    event.preventDefault();
-    console.log("hi");
-    var usersFavs = database.ref("favorites/" + user.uid);
-    console.log(usersFavs);
-    usersFavs.on("child_added", function (snapshot) {
+var favRow = $("<div>");
+function displayFavs() {
+    $("#photoHolder").empty();
+    //var favCol = $("<div>");
+    usersPhotos.on("child_added", function (snapshot) {
         var likedUrl = snapshot.val().url;
-        console.log(likedUrl);
         var likedTitle = snapshot.val().title;
-        console.log(likedTitle);
-        
+        var favInner = $("<div>");
+        var favCol = $("<div>");
+        favCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-4 imgCol");
+        favInner.addClass("inner-div");
+        var favLink = $("<a>");
+        favLink.addClass("example-image-link");
+        favLink.attr("href", likedUrl);
+        favLink.attr("data-lightbox", "example-set");
+        favLink.attr("data-title", likedTitle);
+        favLink.attr("data-key", snapshot.key);
+        var favImg = $("<img>");
+        favImg.addClass("example-image img-fluid");
+        favImg.attr("src", likedUrl);
+        favImg.attr("alt", likedTitle);
+        favLink.append(favImg);
+        favInner.append(favLink);
+        favCol.append(favInner);
+        favRow.addClass("row");
+        favRow.append(favCol);
     });
-    $("#holdMesssage").append();
-    $("#missingInput").css("display", "flex");
+    $("#photoHolder").append(favRow);
+}
+var isFavsUp = false;
+$("#myfavs").on("click", function (event) {
+    if (user === null) {
+        $("#holdMesssage").text("Please log in to view your favorites.");
+        $("#missingInput").css("display", "flex");
+    }
+    else {
+        event.preventDefault();
+        isFavsUp = true;
+        console.log(isFavsUp);
+        //$("#photoHolder").empty();
+        displayFavs();
+        $("#favoritesModal").css("display", "flex");
+    }
+});
+$("#close-favs").on("click", function (event) {
+    event.preventDefault();
+    isFavsUp = false;
+    console.log(isFavsUp);
+    $(this).parents(".photoModal").css("display", "none");
 });
