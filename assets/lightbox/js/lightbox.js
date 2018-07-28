@@ -192,13 +192,13 @@
       self.end();
       return false;
     });
-    /**/
     this.$lightbox.find('.heart-ico').on('click', function () {
       console.log(self);
       console.log(self.$image)
       var currentPlace = self.currentImageIndex;
       var ImgUrl = self.album[currentPlace].link;
-      var ImgTitle = self.album[currentPlace].title;
+      var ImgTitle = ("" + self.album[currentPlace].title);
+      console.log(ImgTitle);
       var imgState = self.album[currentPlace].state;
       console.log(this);
       console.log(imgState);
@@ -209,7 +209,7 @@
       }
       else {
         if (imgState === "unliked") {
-          database.ref("favorites/").push({
+          database.ref("favorites/" + user.uid).push({
             userEmail: user.email,
             userID: user.uid,
             title: ImgTitle,
