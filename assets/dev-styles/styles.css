@@ -28,11 +28,16 @@ h3 {
 }
 
 #map {
-    margin-top: 0;
+    margin-top: -70px;
     margin-bottom: 10px;
     height: 450px;
     border: solid black;
     box-shadow: 5px 10px 18px #888888;
+}
+
+#mapHolder {
+    width: 100%;
+    padding: 10px;
 }
 
 .inner-div {
@@ -69,7 +74,7 @@ h3 {
 
 .modal-content {
     background-color: lightgrey;
-    color: #4e979d;
+    color: rgb(24, 131, 167);
     padding: 20px;
     border: 1px solid #343a40;
     width: 50%;
@@ -78,7 +83,7 @@ h3 {
 
 .close {
     text-align: right;
-    color: rgba(202, 93, 94);
+    color: rgb(24, 131, 167);
     opacity: 1;
     text-shadow: none;
     font-size: 28px;
@@ -88,7 +93,7 @@ h3 {
 }
 
 .close:hover, .close:focus {
-    color: rgba(202, 93, 94);
+    color: rgb(24, 131, 167);
     opacity: 0.6;
     text-decoration: none;
     cursor: pointer;
@@ -96,10 +101,6 @@ h3 {
 
 .notification {
     display: none;
-}
-
-label {
-    color: rgb(60, 72, 88);
 }
 
 #img-head {
@@ -115,6 +116,8 @@ label {
 
 #update-numbers {
     padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 /*animation code for down arrow*/
@@ -203,7 +206,7 @@ h2 {
 /*Below is the CSS for the Login Modal*/
 
 .modal-trigger {
-    background: blue;
+    background: rgb(24, 131, 167);
     padding: 1em 2em;
     color: white;
     border: 0;
@@ -236,7 +239,7 @@ h2 {
 }
 
 .modal-header {
-    display: flex;
+    display: block;
     justify-content: center;
     background-color: black;
     padding: 15px;
@@ -248,7 +251,7 @@ h2 {
 }
 
 #email-input {
-    color: blue;
+    color: rgb(24, 131, 167);
     font-size: 15px;
     border: none;
     border-bottom: 1px solid black;
@@ -258,7 +261,7 @@ h2 {
 }
 
 #password-input {
-    color: blue;
+    color: rgb(24, 131, 167);
     font-size: 15px;
     border: none;
     border-bottom: 1px solid gray;
@@ -267,26 +270,13 @@ h2 {
     text-align: center;
 }
 
-#login-update {
-    display: flex;
-    color: white;
-    background-color: rgb(20, 187, 243) !important;
-    font-size: 15px;
-    font-weight: 500;
-    border: 1px solid blue;
-    height: 22px;
-    padding: 0 16px;
-    border-radius: 2px;
-    box-shadow: 0 1px 3px lighten(black, 60%);
-}
-
 .closeBtn {
     color: #ccc;
     font-size: 30px;
 }
 
 .closeBtn:hover, .closeBtn:focus {
-    color: blue;
+    color: rgb(24, 131, 167);
     text-decoration: none;
     cursor: pointer;
 }
@@ -318,12 +308,16 @@ h2 {
 }
 
 label {
-    color: black;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: rgb(60, 72, 88);
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
     font-size: 16px;
 }
 
 .numberInputs {
-    color: blue;
+    color: rgb(24, 131, 167);
     font-size: 15px;
     border: none;
     border-bottom: 1px solid black;
@@ -338,7 +332,7 @@ label {
     background-color: rgb(20, 187, 243) !important;
     font-size: 15px;
     font-weight: 500;
-    border: 1px solid blue;
+    border: 1px solid rgb(24, 131, 167);
     height: 22px;
     padding: 0 16px;
     border-radius: 2px;
@@ -367,4 +361,67 @@ label {
     padding: 0 8px;
     box-shadow: 0 1px 3px lighten(black, 60%);
     margin: 1px;
+}
+
+.login-input-label {
+    float: left;
+    margin-right: 10px;
+}
+
+.login-input {
+    color: rgb(24, 131, 167);
+    font-size: 15px;
+    border: none;
+    border-bottom: 1px solid black;
+    height: 18px;
+    Width: 100%;
+    text-align: center;
+}
+
+.option-btn {
+    float: left;
+    width: fit-content;
+    display: flex;
+    color: white;
+    background-color: rgb(20, 187, 243) !important;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid rgb(24, 131, 167);
+    height: 22px;
+    padding: 0 16px;
+    border-radius: 2px;
+    margin: 10px;
+    box-shadow: 0 1px 3px lighten(black, 60%);
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+}
+
+.no-acct {
+    display: flex;
+    justify-content: center;
+}
+
+#modalBtn {
+    float: left;
+    margin-right: 10px;
+}
+
+.navbar-translate {
+    width: 100%;
+}
+
+.dark {
+    color: black;
+}
+
+.nofloat {
+    float: none;
+    width: 100%;
+}
+.directionText{
+    display: flex;
+    justify-content: center;
 }

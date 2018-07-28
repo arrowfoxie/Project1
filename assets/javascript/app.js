@@ -18,38 +18,6 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-
-var provider = new firebase.auth.GoogleAuthProvider();
-
-function googleSignin() {
-    firebase.auth()
-
-        .signInWithPopup(provider).then(function (result) {
-            var token = result.credential.accessToken;
-            var user = result.user;
-
-            console.log(token)
-            console.log(user)
-
-        }).catch(function (error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-
-            console.log(error.code)
-            console.log(error.message)
-        });
-}
-
-function googleSignout() {
-    firebase.auth().signOut()
-
-        .then(function () {
-            console.log('Signout Succesfull')
-        }, function (error) {
-            console.log('Signout Failed')
-        });
-}
-
 var latVar;
 var lonVar;
 var markers = [];
@@ -64,10 +32,12 @@ function placeMarkerAndPanTo(latLng, map) {
     console.log("Latitude and longitude coordinates" + latLng.lat() + "and" + latLng.lng());
     latVar = latLng.lat();
     lonVar = latLng.lng();
-    console.log(latVar);
-    console.log(lonVar);
     displayPhotos();
     markers.push(marker);
+    database.ref("coordinates/").push({
+        latitude: latVar,
+        longitude: lonVar
+    })
 }
 
 
@@ -156,7 +126,7 @@ function displayPhotos() {
                 newInnerDiv.append(newLink);
                 newCol.append(newInnerDiv)
                 $("#image-holder").append(newCol);
-                database.ref().push({
+                database.ref("photosLoaded/").push({
                     title: PhotoTitle,
                     url: newPhotoUrl
                 })
@@ -165,10 +135,6 @@ function displayPhotos() {
             }
         });
 }
-$(document).on("click", ".heart-ico", function (event) {
-    event.preventDefault();
-    console.log("boop");
-});
 
 $("#update-numbers").on("click", function (event) {
     // Don't refresh the page!
@@ -180,7 +146,7 @@ $("#update-numbers").on("click", function (event) {
     console.log(radiusFromUser);
 
     if (photoNumFromUser < 1 || photoNumFromUser > 12) {
-        $("#holdMesssage").text("Please enter a value between 1 and 10 for number of photos.");
+        $("#holdMesssage").text("Please enter a value between 1 and 12 for number of photos.");
         $("#missingInput").css("display", "flex");
     }
     else if (radiusFromUser < 1 || radiusFromUser > 12) {
@@ -217,26 +183,60 @@ $(function () {
     });
 });
 
-$("#modalBtn").on("click", function (event) {
-    event.preventDefault();
-    $("#loginModal").css("display", "block");
-});
 var userEmail = "";
 var userPassword = "";
 var isLoggedIn = false;
+
+$("#modalBtn").on("click", function (event) {
+    event.preventDefault();
+    console.log(isLoggedIn);
+    if (isLoggedIn === false) {
+        $("#loginModal").css("display", "block");
+    }
+    else if (isLoggedIn === true) {
+        firebase.auth().signOut().then(function () {
+            isLoggedIn = false;
+            // Sign-out successful.
+        }).catch(function (error) {
+            console.log(error);
+        });
+        $("#modalBtn").text("LOG IN");
+        $("#navmessage").text("Sign in or Create an account");
+    }
+});
+var user = firebase.auth().currentUser;
+
 $("#login-update").on("click", function (event) {
     event.preventDefault();
-    userEmail = $("#email-input").val().trim();
-    userPassword = $("#password-input").val().trim();
-    console.log(userEmail);
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+    providedUserEmail = $("#email-input").val().trim();
+    providedUserPassword = $("#password-input").val().trim();
+    firebase.auth().signInWithEmailAndPassword(providedUserEmail, providedUserPassword).then(function () {
+        user = firebase.auth().currentUser;
+        isLoggedIn = true;
+        userEmail = providedUserEmail;
+        userPassword = providedUserPassword;
+        console.log(user);
+        $("#loginModal").css("display", "none");
+        $("#modalBtn").text("SIGN OUT");
+        $("#navmessage").text("Signed in as " + userEmail);
+    }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // ...
+        if (errorCode === 'auth/wrong-password') {
+            $("#holdMesssage").text("The password you provided is incorrect.");
+            $("#missingInput").css("display", "flex");
+        }
+        else if (errorCode === 'auth/invalid-email') {
+            $("#holdMesssage").text("Please enter a valid email address.");
+            $("#missingInput").css("display", "flex");
+        }
+        else {
+            $("#holdMesssage").text(errorMessage);
+            $("#missingInput").css("display", "flex");
+        }
+        console.log(error);
     });
-    isLoggedIn = true;
-    $("#loginModal").css("display", "none");
 });
 
 $("#new-account").on("click", function (event) {
@@ -247,15 +247,29 @@ $("#new-account").on("click", function (event) {
 
 $("#create-new-user").on("click", function (event) {
     event.preventDefault();
-    userName = $("#new-name-input").val().trim();
-    userEmail = $("#new-email-input").val().trim();
-    userPassword = $("#new-password-input").val().trim();
-    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function (error) {
+    email = $("#new-email-input").val().trim();
+    password = $("#new-password-input").val().trim();
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
+        user = firebase.auth().currentUser;
+        isLoggedIn = true;
+        userEmail = email;
+        userPassword = password;
+        $("#signUpModal").css("display", "none");
+        $("#modalBtn").text("SIGN OUT");
+        $("#navmessage").text("Signed in as " + userEmail);
+    }).catch(function (error) {
+        console.log(email);
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
+        if (errorCode == 'email-already-in-use') {
+            $("#holdMesssage").text("The email you provided is already in use.");
+            $("#missingInput").css("display", "flex");
+        }
+        else {
+            $("#holdMesssage").text(errorMessage);
+            $("#missingInput").css("display", "flex");
+        }
         // ...
     });
-    isLoggedIn = true;
-    $("#signUpModal").css("display", "none");
 });

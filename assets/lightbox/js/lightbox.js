@@ -195,26 +195,33 @@
     /**/
     this.$lightbox.find('.heart-ico').on('click', function () {
       console.log(self);
+      console.log(self.$image)
       var currentPlace = self.currentImageIndex;
       var ImgUrl = self.album[currentPlace].link;
       var ImgTitle = self.album[currentPlace].title;
       var imgState = self.album[currentPlace].state;
       console.log(this);
       console.log(imgState);
-      if (imgState === "unliked") {
-        database.ref().push({
-          user: "userName",
-          userEmail: userEmail,
-          favorite: "favorite",
-          title: ImgTitle,
-          url: ImgUrl
-        })
-        self.album[currentPlace].state = "liked";
-        $(this).css("color", "hotpink");
+      console.log(user);
+      if (user === null) {
+        $("#holdMesssage").text("Please log in to add photos to your favorites.");
+        $("#missingInput").css("display", "flex");
       }
       else {
-        $("#holdMesssage").text("You've already added this photo to your favorites.");
-        $("#missingInput").css("display", "flex");
+        if (imgState === "unliked") {
+          database.ref("favorites/").push({
+            userEmail: user.email,
+            userID: user.uid,
+            title: ImgTitle,
+            url: ImgUrl
+          })
+          self.album[currentPlace].state = "liked";
+          $(this).css("color", "rgb(235, 77, 116)");
+        }
+        else {
+          $("#holdMesssage").text("You've already added this photo to your favorites.");
+          $("#missingInput").css("display", "flex");
+        }
       }
     });
   };
@@ -448,7 +455,16 @@
   // Display caption, image number, and closing button.
   Lightbox.prototype.updateDetails = function () {
     var self = this;
-
+    place = this.currentImageIndex;
+    console.log(this.album[place].state);
+    var likeStatus = this.album[place].state;
+    if (likeStatus === "liked") {
+      //display heart as pink
+      this.$lightbox.find('.heart-ico').css("color", "rgb(235, 77, 116)");
+    }
+    else {
+      this.$lightbox.find('.heart-ico').css("color", "rgb(204, 204, 204)");
+    }
     // Enable anchor clicks in the injected caption html.
     // Thanks Nate Wright for the fix. @https://github.com/NateWr
     if (typeof this.album[this.currentImageIndex].title !== 'undefined' &&
