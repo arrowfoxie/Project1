@@ -6,12 +6,12 @@ $(".close").click(function () {
 
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyDBYdHzf4mLOzxj8d20J5NyvnSnw969AIM",
-    authDomain: "rabbit-e67ed.firebaseapp.com",
-    databaseURL: "https://rabbit-e67ed.firebaseio.com",
-    projectId: "rabbit-e67ed",
-    storageBucket: "rabbit-e67ed.appspot.com",
-    messagingSenderId: "594792130639"
+    apiKey: "AIzaSyDwUjEuyQskBoLECIntfN_rFIyWOQTetSA",
+    authDomain: "maps-and-photos.firebaseapp.com",
+    databaseURL: "https://maps-and-photos.firebaseio.com",
+    projectId: "maps-and-photos",
+    storageBucket: "maps-and-photos.appspot.com",
+    messagingSenderId: "1046812116045"
 };
 
 firebase.initializeApp(config);
