@@ -101,37 +101,42 @@ function displayPhotos() {
         .then(function (response) {
             $("#image-holder").empty();
             for (i = 0; i < numOfPhotos; i++) {
-                var photoId = response.photos.photo[i].id;
-                var farm = response.photos.photo[i].farm;
-                var server = response.photos.photo[i].server;
-                var secret = response.photos.photo[i].secret;
-                var newPhotoUrl = "https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg"
-                var newCol = $("<div>");
-                newCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-6 imgCol");
-                newCol.attr("data-url", newPhotoUrl);
-                var newInnerDiv = $("<div>");
-                newInnerDiv.addClass("inner-div");
-                var newLink = $("<a>");
-                newLink.addClass("example-image-link");
-                newLink.attr("href", newPhotoUrl);
-                newLink.attr("data-lightbox", "example-set");
-                var PhotoTitle = response.photos.photo[i].title;
-                newLink.attr("data-title", PhotoTitle);
-                var newImg = $("<img>")
-                newImg.addClass("example-image photo-thumb img-fluid");
-                //newImg.attr("data-title", response.photos.photo[i].title);
-                newImg.attr("src", newPhotoUrl);
-                newImg.attr("alt", response.photos.photo[i].title);
-                newLink.append(newImg);
-                newInnerDiv.append(newLink);
-                newCol.append(newInnerDiv)
-                $("#image-holder").append(newCol);
-                database.ref("photosLoaded/").push({
-                    title: PhotoTitle,
-                    url: newPhotoUrl
-                })
-
-
+                if (response.photos.photo.length === 0) {
+                    $("#holdMesssage").text("There are no photos here, please choose a different location.");
+                    $("#missingInput").css("display", "flex");
+                }
+                else {
+                    var photoId = response.photos.photo[i].id;
+                    var farm = response.photos.photo[i].farm;
+                    var server = response.photos.photo[i].server;
+                    var secret = response.photos.photo[i].secret;
+                    var newPhotoUrl = "https://farm" + farm + ".staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg"
+                    var newCol = $("<div>");
+                    newCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-6 imgCol");
+                    newCol.attr("data-url", newPhotoUrl);
+                    var newInnerDiv = $("<div>");
+                    newInnerDiv.addClass("inner-div");
+                    var newLink = $("<a>");
+                    newLink.addClass("example-image-link");
+                    newLink.attr("href", newPhotoUrl);
+                    newLink.attr("data-lightbox", "example-set");
+                    var PhotoTitle = response.photos.photo[i].title;
+                    newLink.attr("data-title", PhotoTitle);
+                    var newImg = $("<img>")
+                    newImg.addClass("example-image photo-thumb img-fluid");
+                    newImg.attr("src", newPhotoUrl);
+                    newImg.attr("alt", response.photos.photo[i].title);
+                    newLink.append(newImg);
+                    newInnerDiv.append(newLink);
+                    newCol.append(newInnerDiv)
+                    $("#image-holder").append(newCol);
+                    database.ref("photosLoaded/").push({
+                        title: PhotoTitle,
+                        url: newPhotoUrl
+                    }).then((snap) => {
+                        console.log(snap.key)
+                    })
+                }
             }
         });
 }
@@ -187,13 +192,13 @@ var isLoggedIn = false;
 
 $("#modalBtn").on("click", function (event) {
     event.preventDefault();
-    console.log(isLoggedIn);
     if (isLoggedIn === false) {
         $("#loginModal").css("display", "block");
     }
     else if (isLoggedIn === true) {
         firebase.auth().signOut().then(function () {
             isLoggedIn = false;
+            user = null;
             // Sign-out successful.
         }).catch(function (error) {
             console.log(error);
@@ -203,7 +208,8 @@ $("#modalBtn").on("click", function (event) {
     }
 });
 var user = firebase.auth().currentUser;
-
+var usersPhotos;
+console.log(usersPhotos);
 $("#login-update").on("click", function (event) {
     event.preventDefault();
     providedUserEmail = $("#email-input").val().trim();
@@ -211,12 +217,45 @@ $("#login-update").on("click", function (event) {
     firebase.auth().signInWithEmailAndPassword(providedUserEmail, providedUserPassword).then(function () {
         user = firebase.auth().currentUser;
         isLoggedIn = true;
+
         userEmail = providedUserEmail;
         userPassword = providedUserPassword;
-        console.log(user);
         $("#loginModal").css("display", "none");
         $("#modalBtn").text("SIGN OUT");
         $("#navmessage").text("Signed in as " + userEmail);
+        usersPhotos = database.ref("favorites/" + user.uid);
+        var favRow = $("<div>");
+        //here is where the problem is
+        function displayFavs() {
+            $("#photoHolder").empty();
+            //var favCol = $("<div>");
+            usersPhotos.on("child_added", function (snapshot) {
+                var likedUrl = snapshot.val().url;
+                var likedTitle = snapshot.val().title;
+                var favInner = $("<div>");
+                var favCol = $("<div>");
+                favCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-4 imgCol");
+                favInner.addClass("inner-div");
+                var favLink = $("<a>");
+                favLink.addClass("example-image-link");
+                favLink.attr("href", likedUrl);
+                favLink.attr("data-lightbox", "example-set");
+                favLink.attr("data-title", likedTitle);
+                favLink.attr("data-key", snapshot.key);
+                var favImg = $("<img>");
+                favImg.addClass("example-image img-fluid");
+                favImg.attr("src", likedUrl);
+                favImg.attr("alt", likedTitle);
+                favLink.append(favImg);
+                favInner.append(favLink);
+                favCol.append(favInner);
+                favRow.addClass("row");
+                favRow.append(favCol);
+            });
+            $("#photoHolder").append(favRow);
+        };
+        displayFavs();
+        console.log(usersPhotos);
     }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -235,6 +274,8 @@ $("#login-update").on("click", function (event) {
         }
         console.log(error);
     });
+    $("#email-input").val("");
+    $("#password-input").val("");
 });
 
 $("#new-account").on("click", function (event) {
@@ -271,18 +312,21 @@ $("#create-new-user").on("click", function (event) {
         // ...
     });
 });
+var isFavsUp = false;
 $("#myfavs").on("click", function (event) {
+    if (user === null) {
+        $("#holdMesssage").text("Please log in to view your favorites.");
+        $("#missingInput").css("display", "flex");
+    }
+    else {
+        event.preventDefault();
+        isFavsUp = true;
+        $("#favoritesModal").css("display", "flex");
+    }
+});
+$("#close-favs").on("click", function (event) {
     event.preventDefault();
-    console.log("hi");
-    var usersFavs = database.ref("favorites/" + user.uid);
-    console.log(usersFavs);
-    usersFavs.on("child_added", function (snapshot) {
-        var likedUrl = snapshot.val().url;
-        console.log(likedUrl);
-        var likedTitle = snapshot.val().title;
-        console.log(likedTitle);
-        
-    });
-    $("#holdMesssage").append();
-    $("#missingInput").css("display", "flex");
+    isFavsUp = false;
+    console.log(isFavsUp);
+    $(this).parents(".photoModal").css("display", "none");
 });

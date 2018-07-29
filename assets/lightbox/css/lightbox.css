@@ -10,7 +10,7 @@ html.lb-disable-scrolling {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 998;
+  z-index: 1050;
   background-color: black;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   opacity: 0.8;
@@ -21,7 +21,7 @@ html.lb-disable-scrolling {
   position: absolute;
   left: 0;
   width: 100%;
-  z-index: 999;
+  z-index: 1051;
   text-align: center;
   line-height: 0;
   font-weight: normal;

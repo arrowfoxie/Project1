@@ -11,7 +11,6 @@
  *
  * @preserve
  */
-
 // Uses Node, AMD or browser globals to create a module.
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -99,7 +98,7 @@
     }
 
     var self = this;
-    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><i class = "material-icons heart-ico" data-state = "unliked">favorite</i><a class="lb-close"></a></div></div></div></div>').appendTo($('body'));
+    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><i class = "material-icons action-icon" data-state = "unliked">favorite</i><a class="lb-close"></a></div></div></div></div>').appendTo($('body'));
 
     // Cache jQuery objects
     this.$lightbox = $('#lightbox');
@@ -123,7 +122,6 @@
       bottom: parseInt(this.$image.css('border-bottom-width'), 10),
       left: parseInt(this.$image.css('border-left-width'), 10)
     };
-
     // Attach event handlers to the newly minted DOM elements
     this.$overlay.hide().on('click', function () {
       self.end();
@@ -192,7 +190,8 @@
       self.end();
       return false;
     });
-    this.$lightbox.find('.heart-ico').on('click', function () {
+    //---ICON EVENT LISTENERS ADDED FOR PROJECT---
+    this.$lightbox.find('.action-icon').on('click', function () {
       console.log(self);
       console.log(self.$image)
       var currentPlace = self.currentImageIndex;
@@ -206,6 +205,46 @@
       if (user === null) {
         $("#holdMesssage").text("Please log in to add photos to your favorites.");
         $("#missingInput").css("display", "flex");
+      }
+      else if (isFavsUp === true) {
+        var dataloc = database.ref("favorites/" + user.uid);
+        var key_to_delete = ImgUrl;
+        var query = dataloc.orderByChild("url").equalTo(key_to_delete);
+        query.on('child_added', function (snapshot) {
+          snapshot.ref.remove();
+        });
+        var favRow = $("<div>");
+        function refreshPhotos() {
+          $("#photoHolder").empty();
+          //var favCol = $("<div>");
+          usersPhotos.on("child_added", function (snapshot) {
+            var likedUrl = snapshot.val().url;
+            var likedTitle = snapshot.val().title;
+            var favInner = $("<div>");
+            var favCol = $("<div>");
+            favCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-4 imgCol");
+            favInner.addClass("inner-div");
+            var favLink = $("<a>");
+            favLink.addClass("example-image-link");
+            favLink.attr("href", likedUrl);
+            favLink.attr("data-lightbox", "example-set");
+            favLink.attr("data-title", likedTitle);
+            favLink.attr("data-key", snapshot.key);
+            var favImg = $("<img>");
+            favImg.addClass("example-image img-fluid");
+            favImg.attr("src", likedUrl);
+            favImg.attr("alt", likedTitle);
+            favLink.append(favImg);
+            favInner.append(favLink);
+            favCol.append(favInner);
+            favRow.addClass("row");
+            favRow.append(favCol);
+          });
+          $("#photoHolder").append(favRow);
+        };
+        refreshPhotos();
+        self.end();
+        return false;
       }
       else {
         if (imgState === "unliked") {
@@ -247,6 +286,7 @@
         alt: $link.attr('data-alt'),
         link: $link.attr('href'),
         title: $link.attr('data-title') || $link.attr('title'),
+        //---UNLIKED STATE ADDED FOR PROJECT---
         state: "unliked"
       });
     }
@@ -457,14 +497,22 @@
     var self = this;
     place = this.currentImageIndex;
     console.log(this.album[place].state);
+    //---CODE BELOW ADDED FOR PROJECT---
     var likeStatus = this.album[place].state;
-    if (likeStatus === "liked") {
+    if (likeStatus === "liked" && isFavsUp === false) {
       //display heart as pink
-      this.$lightbox.find('.heart-ico').css("color", "rgb(235, 77, 116)");
+      this.$lightbox.find('.action-icon').text("favorite");
+      this.$lightbox.find('.action-icon').css("color", "rgb(235, 77, 116)");
     }
-    else {
-      this.$lightbox.find('.heart-ico').css("color", "rgb(204, 204, 204)");
+    else if (likeStatus === "unliked" && isFavsUp === false) {
+      this.$lightbox.find('.action-icon').text("favorite");
+      this.$lightbox.find('.action-icon').css("color", "rgb(204, 204, 204)");
     }
+    else if (isFavsUp === true) {
+      this.$lightbox.find('.action-icon').css("color", "rgb(204, 204, 204)");
+      this.$lightbox.find('.action-icon').text("delete");
+    }
+    //-----------------------------------
     // Enable anchor clicks in the injected caption html.
     // Thanks Nate Wright for the fix. @https://github.com/NateWr
     if (typeof this.album[this.currentImageIndex].title !== 'undefined' &&
