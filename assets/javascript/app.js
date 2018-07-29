@@ -217,12 +217,44 @@ $("#login-update").on("click", function (event) {
     firebase.auth().signInWithEmailAndPassword(providedUserEmail, providedUserPassword).then(function () {
         user = firebase.auth().currentUser;
         isLoggedIn = true;
+
         userEmail = providedUserEmail;
         userPassword = providedUserPassword;
         $("#loginModal").css("display", "none");
         $("#modalBtn").text("SIGN OUT");
         $("#navmessage").text("Signed in as " + userEmail);
         usersPhotos = database.ref("favorites/" + user.uid);
+        var favRow = $("<div>");
+        //here is where the problem is
+        function displayFavs() {
+            $("#photoHolder").empty();
+            //var favCol = $("<div>");
+            usersPhotos.on("child_added", function (snapshot) {
+                var likedUrl = snapshot.val().url;
+                var likedTitle = snapshot.val().title;
+                var favInner = $("<div>");
+                var favCol = $("<div>");
+                favCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-4 imgCol");
+                favInner.addClass("inner-div");
+                var favLink = $("<a>");
+                favLink.addClass("example-image-link");
+                favLink.attr("href", likedUrl);
+                favLink.attr("data-lightbox", "example-set");
+                favLink.attr("data-title", likedTitle);
+                favLink.attr("data-key", snapshot.key);
+                var favImg = $("<img>");
+                favImg.addClass("example-image img-fluid");
+                favImg.attr("src", likedUrl);
+                favImg.attr("alt", likedTitle);
+                favLink.append(favImg);
+                favInner.append(favLink);
+                favCol.append(favInner);
+                favRow.addClass("row");
+                favRow.append(favCol);
+            });
+            $("#photoHolder").append(favRow);
+        };
+        displayFavs();
         console.log(usersPhotos);
     }).catch(function (error) {
         // Handle Errors here.
@@ -280,36 +312,6 @@ $("#create-new-user").on("click", function (event) {
         // ...
     });
 });
-var favRow = $("<div>");
-//here is where the problem is
-function displayFavs() {
-    $("#photoHolder").empty();
-    //var favCol = $("<div>");
-    usersPhotos.on("child_added", function (snapshot) {
-        var likedUrl = snapshot.val().url;
-        var likedTitle = snapshot.val().title;
-        var favInner = $("<div>");
-        var favCol = $("<div>");
-        favCol.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-4 imgCol");
-        favInner.addClass("inner-div");
-        var favLink = $("<a>");
-        favLink.addClass("example-image-link");
-        favLink.attr("href", likedUrl);
-        favLink.attr("data-lightbox", "example-set");
-        favLink.attr("data-title", likedTitle);
-        favLink.attr("data-key", snapshot.key);
-        var favImg = $("<img>");
-        favImg.addClass("example-image img-fluid");
-        favImg.attr("src", likedUrl);
-        favImg.attr("alt", likedTitle);
-        favLink.append(favImg);
-        favInner.append(favLink);
-        favCol.append(favInner);
-        favRow.addClass("row");
-        favRow.append(favCol);
-    });
-    $("#photoHolder").append(favRow);
-}
 var isFavsUp = false;
 $("#myfavs").on("click", function (event) {
     if (user === null) {
@@ -319,9 +321,6 @@ $("#myfavs").on("click", function (event) {
     else {
         event.preventDefault();
         isFavsUp = true;
-        console.log(isFavsUp);
-        //$("#photoHolder").empty();
-        displayFavs();
         $("#favoritesModal").css("display", "flex");
     }
 });
