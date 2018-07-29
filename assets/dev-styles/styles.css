@@ -6,7 +6,6 @@
 .main-raised {
     top: 100px;
     height: 750px;
-    margin: 50;
     overflow: auto;
     border: solid black;
 }
@@ -63,7 +62,7 @@ h3 {
     align-items: center;
     justify-content: center;
     position: fixed;
-    z-index: 1000;
+    z-index: 1052;
     left: 0;
     top: 0;
     width: 100%;
@@ -163,14 +162,14 @@ h3 {
     background-color: rgb(60, 72, 88)!important;
 }
 
-.heart-ico {
+.action-icon {
     color: rgb(204, 204, 204);
     float: left;
     text-shadow: 1px 1px 2px #343a40;
     font-size: 29px;
 }
 
-.heart-ico:hover {
+.action-icon:hover {
     color: rgb(255, 255, 255);
     cursor: pointer;
 }
@@ -219,7 +218,7 @@ h2 {
 .modal1 {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1001;
     left: 0;
     top: 0;
     height: 100%;
@@ -248,26 +247,6 @@ h2 {
 
 .modal-body {
     padding: 40px;
-}
-
-#email-input {
-    color: rgb(24, 131, 167);
-    font-size: 15px;
-    border: none;
-    border-bottom: 1px solid black;
-    height: 18px;
-    Width: 100%;
-    text-align: center;
-}
-
-#password-input {
-    color: rgb(24, 131, 167);
-    font-size: 15px;
-    border: none;
-    border-bottom: 1px solid gray;
-    height: 18px;
-    Width: 100%;
-    text-align: center;
 }
 
 .closeBtn {
@@ -308,6 +287,7 @@ h2 {
 }
 
 label {
+    float: left;
     margin-left: 10px;
     margin-right: 10px;
     color: rgb(60, 72, 88);
@@ -341,7 +321,7 @@ label {
 
 #floating-panel {
     position: absolute;
-    top: 375px;
+    bottom: 55px;
     align-content: center;
     z-index: 5;
     background-color: none;
@@ -363,13 +343,8 @@ label {
     color: black;
     font-weight: bolder;
     border-radius: 5%;
-    box-shadow: 5px 10px 18px #888888;
+    box-shadow: 5px 5px 8px #888888;
     clear: right;
-}
-
-.login-input-label {
-    float: left;
-    margin-right: 10px;
 }
 
 .login-input {
@@ -377,7 +352,7 @@ label {
     font-size: 15px;
     border: none;
     border-bottom: 1px solid black;
-    height: 18px;
+    height: 30px;
     Width: 100%;
     text-align: center;
 }
@@ -404,6 +379,7 @@ label {
 }
 
 .no-acct {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
 }
@@ -420,12 +396,6 @@ label {
 .dark {
     color: black;
 }
-
-.nofloat {
-    float: none;
-    width: 100%;
-}
-
 .directionText {
     display: flex;
     justify-content: center;
@@ -453,7 +423,41 @@ label {
 .fav-holder {
     display: flex;
     justify-content: right;
+    flex-direction: row-reverse;
 }
-.title{
+
+.title {
     font-size: 30px;
- }
+}
+
+#holdMessage {
+    overflow: auto;
+}
+
+#myPhotoHolder {
+    max-height: 100vh;
+    width: 90%;
+    overflow: auto;
+}
+
+.photoModal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1031;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+}
