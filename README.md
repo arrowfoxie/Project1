@@ -27,4 +27,4 @@ Upon clicking a location, photos tagged with the same location on Flickr will be
 
 ## See It Live
 
-* [A - Z Guide of Top Flickr Photos] (https://arrowfoxie.github.io/Project1/)
+* [A - Z Guide of Top Flickr Photos](https://arrowfoxie.github.io/Project1/)
